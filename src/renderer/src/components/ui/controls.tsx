@@ -38,18 +38,27 @@ export function NumberSlider(props: {
   unit?: string
   onChange(v: number): void
   format?: (v: number) => string
+  /** Logarithmic slider travel (frequencies). Requires min > 0. */
+  log?: boolean
 }): JSX.Element {
   const step = props.step ?? 0.01
+  const log = props.log && props.min > 0
+  // Log sliders run on a 0..1000 position mapped exponentially between min and max.
+  const toPos = (v: number): number => (Math.log(Math.max(props.min, v) / props.min) / Math.log(props.max / props.min)) * 1000
+  const fromPos = (p: number): number => {
+    const v = props.min * Math.pow(props.max / props.min, p / 1000)
+    return Math.round(v / step) * step
+  }
   const decimals = step >= 1 ? 0 : step >= 0.1 ? 1 : 2
   return (
     <>
       <input
         type="range"
-        min={props.min}
-        max={props.max}
-        step={step}
-        value={props.value}
-        onChange={(e) => props.onChange(Number(e.target.value))}
+        min={log ? 0 : props.min}
+        max={log ? 1000 : props.max}
+        step={log ? 1 : step}
+        value={log ? toPos(props.value) : props.value}
+        onChange={(e) => props.onChange(log ? fromPos(Number(e.target.value)) : Number(e.target.value))}
         style={{ flex: 1 }}
       />
       <input
@@ -99,7 +108,7 @@ export function ParamControls(props: {
         return (
           <Row key={d.key} label={d.label}>
             {d.type === 'number' && (
-              <NumberSlider value={Number(v)} min={d.min ?? 0} max={d.max ?? 1} step={d.step} unit={d.unit} onChange={(x) => props.onChange(d.key, x)} />
+              <NumberSlider value={Number(v)} min={d.min ?? 0} max={d.max ?? 1} step={d.step} unit={d.unit} log={d.scale === 'log'} onChange={(x) => props.onChange(d.key, x)} />
             )}
             {d.type === 'color' && <ColorInput value={String(v)} onChange={(x) => props.onChange(d.key, x)} />}
             {d.type === 'boolean' && <Toggle value={Boolean(v)} onChange={(x) => props.onChange(d.key, x)} />}

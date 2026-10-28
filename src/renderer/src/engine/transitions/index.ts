@@ -1,51 +1,66 @@
-import type { ParamDef } from '@/lib/params'
+import type { TransitionSpec } from '@shared/types'
+import { defaultParams } from '@/lib/params'
+import { clamp01 } from '@/engine/effects/util'
+import type { TransitionDef } from './types'
+import { DISSOLVE_TRANSITIONS } from './dissolve'
+import { WIPE_TRANSITIONS } from './wipe'
+import { IRIS_TRANSITIONS } from './iris'
+import { SLIDE_TRANSITIONS } from './slide'
+import { ZOOM_TRANSITIONS } from './zoom'
+import { PERSPECTIVE_TRANSITIONS } from './perspective'
+import { STYLIZED_TRANSITIONS } from './stylized'
+
+export type { TransitionDef } from './types'
 
 /**
- * A transition draws the blend of two layers into ctx (already cleared, sized w×h).
- * `from` / `to` are fully rendered layer canvases (transform + effects already applied) or null for
- * "nothing" (transparent; the tracks below show through). p goes 0 → 1 across the transition.
+ * Wraps a definition so every transition: merges missing params with their defaults, never leaks
+ * context state, and shows exactly `from` at p ≤ 0 and exactly `to` at p ≥ 1.
  */
-export interface TransitionDef {
-  type: string
-  name: string
-  category: 'Dissolve' | 'Wipe' | 'Slide' | 'Zoom' | 'Iris' | 'Stylized' | '3D'
-  defaultDuration: number
-  params: ParamDef[]
-  render(
-    ctx: CanvasRenderingContext2D,
-    from: CanvasImageSource | null,
-    to: CanvasImageSource | null,
-    p: number,
-    params: Record<string, number | string | boolean>,
-    w: number,
-    h: number
-  ): void
-}
-
-const crossDissolve: TransitionDef = {
-  type: 'cross-dissolve',
-  name: 'Cross Dissolve',
-  category: 'Dissolve',
-  defaultDuration: 1,
-  params: [],
-  render(ctx, from, to, p, _params, w, h) {
-    if (from) {
-      ctx.globalAlpha = 1 - p
-      ctx.drawImage(from, 0, 0, w, h)
+function guarded(def: TransitionDef): TransitionDef {
+  const defaults = defaultParams(def.params)
+  return {
+    ...def,
+    render(ctx, from, to, p, params, w, h) {
+      const q = clamp01(Number.isFinite(p) ? p : 0)
+      ctx.save()
+      try {
+        if (q <= 0) {
+          if (from) ctx.drawImage(from, 0, 0, w, h)
+        } else if (q >= 1) {
+          if (to) ctx.drawImage(to, 0, 0, w, h)
+        } else {
+          def.render(ctx, from, to, q, { ...defaults, ...params }, w, h)
+        }
+      } finally {
+        ctx.restore()
+      }
     }
-    if (to) {
-      ctx.globalAlpha = p
-      ctx.drawImage(to, 0, 0, w, h)
-    }
-    ctx.globalAlpha = 1
   }
 }
 
 /** All transitions, in browser display order. */
-export const TRANSITIONS: TransitionDef[] = [crossDissolve]
-
-export function getTransition(type: string): TransitionDef {
-  return TRANSITIONS.find((t) => t.type === type) ?? crossDissolve
-}
+export const TRANSITIONS: TransitionDef[] = [
+  ...DISSOLVE_TRANSITIONS,
+  ...WIPE_TRANSITIONS,
+  ...IRIS_TRANSITIONS,
+  ...SLIDE_TRANSITIONS,
+  ...ZOOM_TRANSITIONS,
+  ...PERSPECTIVE_TRANSITIONS,
+  ...STYLIZED_TRANSITIONS
+].map(guarded)
 
 export const DEFAULT_TRANSITION = 'cross-dissolve'
+
+export const TRANSITION_CATEGORIES: TransitionDef['category'][] = ['Dissolve', 'Wipe', 'Iris', 'Slide', 'Zoom', '3D', 'Stylized']
+
+export function getTransition(type: string): TransitionDef {
+  return TRANSITIONS.find((t) => t.type === type) ?? TRANSITIONS[0]
+}
+
+/** A new TransitionSpec with the transition's default duration and params. */
+export function createTransitionSpec(type: string, duration?: number): TransitionSpec {
+  const def = getTransition(type)
+  return { type: def.type, duration: duration ?? def.defaultDuration, params: defaultParams(def.params) }
+}
+
+export { drawTransitionPreview } from './preview'

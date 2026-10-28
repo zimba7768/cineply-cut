@@ -26,7 +26,7 @@ export const SEQUENCE_PRESETS: { id: string; label: string; width: number; heigh
 // ---------------------------------------------------------------- media ----
 
 export type MediaKind = 'video' | 'audio' | 'image'
-export type MediaSource = 'import' | 'higgsfield' | 'voiceover' | 'processed' | 'title-render'
+export type MediaSource = 'import' | 'higgsfield' | 'voiceover' | 'tts' | 'processed' | 'title-render'
 
 export interface MediaItem {
   id: Id

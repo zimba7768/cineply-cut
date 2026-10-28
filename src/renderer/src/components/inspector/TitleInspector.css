@@ -1,0 +1,13 @@
+.tti-text { width: 100%; min-height: 64px; font-size: 13px; }
+.tti-layer-buttons { display: flex; gap: 4px; flex-wrap: wrap; }
+.tti-layers { display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--line); border-radius: var(--radius); padding: 3px; background: var(--bg-0); }
+.tti-none { padding: 8px; text-align: center; }
+.tti-layer { display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 4px; border-radius: 4px; cursor: pointer; }
+.tti-layer:hover { background: var(--bg-3); }
+.tti-layer.active { background: var(--accent-dim); box-shadow: inset 0 0 0 1px var(--accent); }
+.tti-layer-icon { width: 18px; height: 18px; border-radius: 3px; display: grid; place-items: center; font-size: 11px; font-weight: 700; flex-shrink: 0; background: var(--title-clip-2); color: #fff; }
+.tti-layer-icon.shape { background: var(--bg-4); }
+.tti-layer-name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tti-layer-actions { display: inline-flex; gap: 1px; opacity: 0.35; }
+.tti-layer:hover .tti-layer-actions, .tti-layer.active .tti-layer-actions { opacity: 1; }
+.tti-segment { display: inline-flex; gap: 2px; }

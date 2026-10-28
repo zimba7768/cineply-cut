@@ -1,0 +1,19 @@
+.monitor { display: flex; flex-direction: column; height: 100%; min-height: 0; background: var(--bg-0); }
+.monitor-stage { flex: 1; min-height: 0; display: grid; place-items: center; overflow: hidden; }
+.monitor-frame { position: relative; background: #000; box-shadow: 0 0 0 1px var(--line); }
+.monitor-canvas { display: block; width: 100%; height: 100%; }
+.monitor-overlay { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.monitor-overlay.safe rect, .monitor-overlay.safe line { fill: none; stroke: rgba(255, 255, 255, 0.45); stroke-width: 1px; vector-effect: non-scaling-stroke; }
+.monitor-bounds { fill: transparent; stroke: var(--accent-2); stroke-width: 1px; vector-effect: non-scaling-stroke; pointer-events: all; cursor: move; }
+.monitor-handle { fill: var(--bg-0); stroke: var(--accent-2); stroke-width: 1px; vector-effect: non-scaling-stroke; }
+
+.monitor-bar { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 10px; background: var(--bg-1); border-top: 1px solid var(--line); flex-shrink: 0; }
+.monitor-bar-side { flex: 1; display: flex; align-items: center; gap: 4px; min-width: 0; }
+.monitor-bar-side.right { justify-content: flex-end; }
+.monitor-transport { display: flex; align-items: center; gap: 2px; }
+.monitor-play { width: 34px; height: 30px; border-radius: 15px; font-size: 11px; }
+.monitor-tc { font-family: var(--mono); font-size: 13px; color: var(--accent-2); background: none; border: 1px solid transparent; border-radius: 4px; padding: 2px 6px; cursor: text; }
+.monitor-tc:hover { border-color: var(--line-strong); }
+.monitor-tc.editing { width: 120px; height: 24px; color: var(--text-0); }
+.monitor-tc.total { color: var(--text-2); cursor: default; border: none; font-size: 12px; }
+.monitor-quality { height: 22px; padding: 0 4px; font-size: 11px; }

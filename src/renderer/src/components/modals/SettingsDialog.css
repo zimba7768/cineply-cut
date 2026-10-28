@@ -1,0 +1,11 @@
+.settings { display: flex; flex-direction: column; margin: -16px; }
+.settings .input.mono, .settings .textarea.mono { font-family: var(--mono); font-size: 11px; }
+.settings .grow { flex: 1; min-width: 0; }
+.settings-hint { color: var(--text-2); font-size: 11px; }
+.settings-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.settings-status { font-size: 11px; user-select: text; }
+.settings-status.ok { color: var(--ok); }
+.settings-status.error { color: var(--danger); }
+.settings-custom { display: flex; flex-direction: column; gap: 6px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg-2); }
+.settings-custom-row { display: flex; gap: 6px; align-items: center; }
+.settings-custom .textarea { width: 100%; }

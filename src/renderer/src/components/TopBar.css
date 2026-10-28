@@ -1,0 +1,21 @@
+.topbar { height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 10px; background: var(--bg-1); border-bottom: 1px solid var(--line); }
+.topbar .grow { flex: 1; }
+.topbar-brand { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 13px; letter-spacing: 0.01em; padding-right: 4px; }
+.topbar-logo { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font-size: 10px; color: #fff; background: linear-gradient(135deg, var(--accent), #c04fd0); }
+.topbar-group { display: flex; gap: 3px; padding: 0 8px; border-left: 1px solid var(--line); }
+.topbar-group .btn.icon { border-color: transparent; background: transparent; }
+.topbar-group .btn.icon:hover:not(:disabled) { background: var(--bg-3); }
+.topbar-group .btn.icon.active { background: var(--accent-dim); border-color: var(--accent); }
+.topbar-seq { font-family: var(--mono); font-size: 11px; color: var(--text-1); }
+.topbar-export { padding: 0 18px; height: 30px; font-size: 12.5px; }
+.topbar-project { position: relative; }
+.topbar-project > .btn { max-width: 280px; }
+.topbar-project-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.topbar-dirty { color: var(--warn); font-size: 10px; }
+.topbar-menu { position: absolute; top: 34px; left: 0; z-index: 120; min-width: 250px; padding: 4px; background: var(--bg-2); border: 1px solid var(--line-strong); border-radius: 7px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; }
+.topbar-menu > button { display: flex; align-items: center; gap: 12px; height: 28px; padding: 0 10px; border: none; background: none; border-radius: 4px; cursor: pointer; text-align: left; }
+.topbar-menu > button > span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.topbar-menu > button:hover { background: var(--accent-dim); }
+.topbar-menu kbd { font: 10.5px var(--font); color: var(--text-2); }
+.topbar-menu-sep { height: 1px; margin: 4px 6px; background: var(--line); }
+.topbar-menu-label { padding: 4px 10px 2px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-2); }

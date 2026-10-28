@@ -43,6 +43,8 @@ export interface CineplyApi {
   platform: string
   /** URL the renderer can use in <video>/<audio>/<img>/fetch for a local file path (supports Range requests). */
   mediaUrl(path: string): string
+  /** Absolute path of a File dropped from Explorer (Electron removed File.path). Empty for non-disk files. */
+  getPathForFile(file: File): string
 
   dialog: {
     openMedia(): Promise<string[]>
@@ -105,6 +107,8 @@ export interface CineplyApi {
 
   shell: {
     showItemInFolder(path: string): Promise<void>
+    /** Opens a file or folder with its default app (e.g. a folder in Explorer). Resolves to an error string, empty on success. */
+    openPath(path: string): Promise<string>
     openExternal(url: string): Promise<void>
   }
 

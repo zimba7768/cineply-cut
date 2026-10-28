@@ -1,0 +1,16 @@
+.export-presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.export-presets .btn { height: 34px; white-space: normal; line-height: 1.2; }
+.export-note { padding: 8px 10px; border-radius: var(--radius); border: 1px solid var(--warn); background: rgba(255, 181, 71, 0.08); color: var(--text-1); }
+.export-hint { font-size: 11px; padding-left: 2px; }
+.export-num { width: 70px; text-align: right; font-family: var(--mono); font-size: 11px; }
+.export-radio { display: flex; align-items: center; gap: 6px; cursor: pointer; min-height: 22px; }
+.export-radio.disabled { cursor: default; opacity: 0.6; }
+.export-summary { font-size: 11px; line-height: 1.5; }
+.export-estimate { flex: 1; align-self: center; font-size: 11px; }
+.export-path { font-family: var(--mono); font-size: 11px; color: var(--text-1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; user-select: text; }
+.export-phase { font-weight: 600; }
+.export-stats { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 11px; font-variant-numeric: tabular-nums; }
+.export-ok { color: var(--ok); font-weight: 600; }
+.export-error { color: var(--danger); user-select: text; white-space: pre-wrap; }
+.export-warnings { margin: 0; padding-left: 18px; color: var(--warn); font-size: 11px; user-select: text; }
+.export-file { flex: 1; }

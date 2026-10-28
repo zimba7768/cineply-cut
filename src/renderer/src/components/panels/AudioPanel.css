@@ -1,0 +1,27 @@
+.audio-panel { display: flex; flex-direction: column; }
+
+.mixer { display: flex; gap: 6px; align-items: stretch; }
+.mixer-strips { flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.strip { width: 74px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px 5px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); }
+.strip.is-muted .strip-body { opacity: 0.5; }
+.strip.master { border-color: var(--line-strong); background: var(--bg-3); }
+.strip-name { width: 100%; text-align: center; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.strip-pan-spacer { height: 14px; }
+.strip-body { display: flex; gap: 4px; align-items: stretch; }
+.strip-db { font: 10px var(--mono); color: var(--text-1); }
+.strip-buttons { display: flex; gap: 4px; }
+.strip-buttons .btn { width: 26px; padding: 0; font-weight: 700; }
+.strip-m.on { background: var(--warn); border-color: var(--warn); color: #000; }
+.strip-s.on { background: var(--ok); border-color: var(--ok); color: #000; }
+.strip-fx { width: 100%; }
+
+.vo-controls { display: flex; align-items: center; gap: 10px; min-height: 34px; }
+.vo-record { color: var(--text-0); }
+.vo-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--danger); }
+.vo-dot.live { animation: vo-blink 1s infinite; }
+.vo-stop { border-color: var(--danger); color: var(--danger); }
+.vo-countdown { font-size: 26px; font-weight: 700; color: var(--danger); width: 30px; text-align: center; }
+.vo-time { font: 11px var(--mono); display: inline-flex; align-items: center; gap: 6px; }
+.vo-error { color: var(--danger); font-size: 11px; }
+.vo-hint { font-size: 11px; }
+@keyframes vo-blink { 50% { opacity: 0.2; } }

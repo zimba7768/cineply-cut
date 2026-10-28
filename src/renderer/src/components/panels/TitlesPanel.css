@@ -1,0 +1,14 @@
+.ttp { display: flex; flex-direction: column; min-height: 100%; }
+.ttp-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); padding-top: 6px; }
+.ttp-card { position: relative; }
+.ttp-card .thumb { background: #08090b; }
+.ttp-foot { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.ttp-foot .name { flex: 1; min-width: 0; }
+.ttp-add { width: 20px; height: 20px; border-radius: 4px; border: 1px solid var(--line-strong); background: var(--bg-3); color: var(--text-1); cursor: pointer; padding: 0; line-height: 1; font-size: 13px; opacity: 0; flex-shrink: 0; }
+.ttp-card:hover .ttp-add { opacity: 1; }
+.ttp-add:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.ttp-matte { margin: 8px; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-2); display: flex; flex-direction: column; gap: 8px; }
+.ttp-matte-row { display: flex; align-items: center; gap: 6px; }
+.ttp-swatches { display: flex; gap: 4px; flex-wrap: wrap; }
+.ttp-swatch { width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--line-strong); cursor: pointer; padding: 0; }
+.ttp-swatch.active { outline: 2px solid var(--accent); outline-offset: 1px; }

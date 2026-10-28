@@ -1,0 +1,19 @@
+.inspector { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.inspector-scroll { flex: 1; min-height: 0; overflow: auto; }
+.inspector-title { display: flex; align-items: center; gap: 8px; padding: 10px; border-bottom: 1px solid var(--line); }
+.inspector-name { flex: 1; min-width: 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.inspector-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; background: var(--video-clip); }
+.inspector-swatch.audio { background: var(--audio-clip); }
+.inspector-swatch.title { background: var(--title-clip); }
+.inspector-value { color: var(--text-0); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; user-select: text; }
+.inspector-value.mono { font-family: var(--mono); font-size: 11px; }
+.inspector-value.path { direction: rtl; text-align: left; font-size: 11px; color: var(--text-1); }
+.inspector-value.wrap { white-space: normal; }
+
+.kf-buttons { display: inline-flex; align-items: center; gap: 1px; flex-shrink: 0; }
+.kf-btn { width: 18px; height: 20px; padding: 0; border: none; border-radius: 3px; background: none; color: var(--text-2); cursor: pointer; font-size: 11px; line-height: 1; }
+.kf-btn:hover:not(:disabled) { color: var(--text-0); background: var(--bg-3); }
+.kf-btn:disabled { opacity: 0.3; cursor: default; }
+.kf-btn.diamond { font-size: 10px; }
+.kf-btn.diamond.on { color: var(--accent-2); }
+.kf-btn.watch.on { color: var(--accent); }

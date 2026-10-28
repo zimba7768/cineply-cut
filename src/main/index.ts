@@ -80,6 +80,10 @@ async function saveSettings(): Promise<void> {
   await fsp.writeFile(settingsFile(), JSON.stringify(settingsCache ?? {}, null, 2), 'utf8')
 }
 
+export async function getSetting<T = unknown>(key: string): Promise<T | undefined> {
+  return (await loadSettings())[key] as T | undefined
+}
+
 export async function getSecret(key: string): Promise<string | undefined> {
   const s = await loadSettings()
   const enc = s[`secret:${key}`]
@@ -225,6 +229,7 @@ function registerIpc(): void {
   })
 
   ipcMain.handle('shell:showItemInFolder', (_e, p: string) => shell.showItemInFolder(p))
+  ipcMain.handle('shell:openPath', (_e, p: string) => shell.openPath(p))
   ipcMain.handle('shell:openExternal', (_e, url: string) => {
     if (/^https:\/\//i.test(url)) return shell.openExternal(url)
     return undefined

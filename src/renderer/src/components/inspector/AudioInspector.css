@@ -1,0 +1,8 @@
+.ai-mono { font: 11px var(--mono); color: var(--text-1); }
+.ai-note { font-size: 11px; }
+.ai-source { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-1); }
+.ai-kf { display: flex; align-items: center; gap: 6px; }
+.ai-kf input[type='range'] { flex: 1; min-width: 40px; }
+.ai-kf .select { width: 92px; height: 22px; font-size: 11px; padding: 0 4px; }
+.ai-kf-time { font-family: var(--mono); width: 54px; }
+.ai-kf-db { width: 36px; text-align: right; }

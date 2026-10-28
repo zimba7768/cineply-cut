@@ -1,0 +1,16 @@
+.fxi.dropping { box-shadow: inset 0 0 0 2px var(--accent); }
+.fxi-add { height: 22px; font-size: 11px; max-width: 150px; text-transform: none; letter-spacing: normal; }
+.fxi-empty { padding: 12px 8px; }
+.fxi-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-2); }
+.fxi-card.disabled .fxi-name, .fxi-card.disabled .fxi-body { opacity: 0.45; }
+.fxi-head { display: flex; align-items: center; gap: 4px; padding: 4px 4px 4px 2px; }
+.fxi-name { flex: 1; min-width: 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: default; }
+.fxi-btn { width: 20px; height: 20px; padding: 0; border: none; border-radius: 4px; background: none; color: var(--text-2); cursor: pointer; font-size: 11px; line-height: 1; flex-shrink: 0; }
+.fxi-btn:hover:not(:disabled) { color: var(--text-0); background: var(--bg-4); }
+.fxi-btn:disabled { opacity: 0.3; cursor: default; }
+.fxi-btn.danger:hover:not(:disabled) { color: var(--danger); }
+.fxi-body { padding: 2px 8px 8px; display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--line); padding-top: 6px; }
+.fxi-preview { display: grid; place-items: center; padding: 2px 0 4px; }
+.fxi-preview canvas { width: 100%; max-width: 256px; aspect-ratio: 16 / 9; border-radius: 4px; border: 1px solid var(--line); }
+.fxi-footer { padding: 10px; display: flex; justify-content: flex-end; }
+.mono-small { font-family: var(--mono); font-size: 11px; }

@@ -8,6 +8,8 @@ export interface ParamDef {
   max?: number
   step?: number
   unit?: string
+  /** Slider response; 'log' suits frequencies (min must be > 0). */
+  scale?: 'linear' | 'log'
   options?: { value: string; label: string }[]
 }
 

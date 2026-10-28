@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer, type IpcRendererEvent } from 'electron'
+import { contextBridge, ipcRenderer, webUtils, type IpcRendererEvent } from 'electron'
 import { basename, join } from 'node:path'
 import { EXTRA_CHANNEL_PREFIXES, type CineplyApi } from '../shared/ipc'
 
@@ -16,6 +16,7 @@ function allowed(channel: string): boolean {
 
 const api: CineplyApi = {
   platform: process.platform,
+  getPathForFile: (file) => webUtils.getPathForFile(file),
   mediaUrl: (path) => `cineply-media://file/${encodeURIComponent(path)}`,
   dialog: {
     openMedia: inv('dialog:openMedia') as CineplyApi['dialog']['openMedia'],
@@ -64,6 +65,7 @@ const api: CineplyApi = {
   },
   shell: {
     showItemInFolder: inv('shell:showItemInFolder') as CineplyApi['shell']['showItemInFolder'],
+    openPath: inv('shell:openPath') as CineplyApi['shell']['openPath'],
     openExternal: inv('shell:openExternal') as CineplyApi['shell']['openExternal']
   },
   app: {
