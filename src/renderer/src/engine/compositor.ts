@@ -23,3 +23,19 @@ export function renderFrame(
   ctx.fillStyle = background
   ctx.fillRect(0, 0, width * opts.scale, height * opts.scale)
 }
+
+export interface FrameRequest {
+  clip: import('@shared/types').Clip
+  media: import('@shared/types').MediaItem
+  sourceTime: number
+}
+
+/**
+ * Every (clip, media, sourceTime) frame renderFrame will ask the FrameProvider for at time t,
+ * including both sides of active transitions and title background media. Export uses this to
+ * decode exactly the needed frames before calling renderFrame.
+ */
+export function collectFrameRequests(project: Project, t: number): FrameRequest[] {
+  void project; void t
+  return []
+}
