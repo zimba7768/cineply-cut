@@ -1,7 +1,7 @@
 {
   "name": "cineply-cut",
   "productName": "Cineply Cut",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Free, open-source multi-track video editor with transitions, titles, audio editing and Higgsfield AI generation",
   "license": "MIT",
   "author": "zimba7768",
