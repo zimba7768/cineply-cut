@@ -23,7 +23,14 @@ export interface PreviewEngine {
 /** Seeks land slightly inside the wanted frame so float error never shows the previous one. */
 const SEEK_EPS = 0.0005
 /** Re-seek a playing video when it drifts this far (seconds) from the master clock. */
-const MAX_DRIFT = 0.15
+const MAX_DRIFT = 0.3
+/** Smaller drift is corrected by nudging playbackRate: this much rate change per second of drift... */
+const NUDGE_GAIN = 4
+/** ...capped at ±25%, and ignored below 10 ms so the rate isn't touched every frame. */
+const MAX_NUDGE = 0.25
+const DRIFT_DEADBAND = 0.01
+/** Keep a clip's held frame fresh during its last moments, so the cut never falls back to a stale one. */
+const SNAP_BEFORE_END = 0.25
 /** Rates above this are shown by step-seeking instead of native playback. */
 const MAX_NATIVE_RATE = 2
 const PREROLL = 1
@@ -97,7 +104,16 @@ export class MediaPool implements FrameProvider {
     if (slot.failed) return null
     const v = slot.video
     const hasFrame = v.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
-    if (this.playing) return hasFrame ? v : slot.snapshot
+    if (this.playing) {
+      if (!hasFrame || v.seeking) return slot.snapshot ?? (hasFrame ? v : null)
+      // The element plays on its own clock and can run a little past the clip's out point. Never show
+      // frames that were trimmed off: hold the clip's last frame instead.
+      const frame = 1 / (media.fps || 30)
+      const last = clip.in + clip.duration * clip.speed - frame
+      if (v.currentTime >= Math.max(sourceTime, last) + frame - 0.001) return slot.snapshot ?? v
+      if (sourceTime > last - SNAP_BEFORE_END) this.snap(slot)
+      return v
+    }
     if (hasFrame && !v.seeking && (slot.target === null || near(v.currentTime, slot.target))) return v
     return slot.snapshot ?? (hasFrame ? v : null)
   }
@@ -202,9 +218,15 @@ export class MediaPool implements FrameProvider {
         if (!v.seeking && Math.abs(v.currentTime - r.sourceTime) > frame / 2) v.currentTime = r.sourceTime + SEEK_EPS
         continue
       }
-      if (v.playbackRate !== speed) v.playbackRate = speed
-      if (!v.seeking && Math.abs(v.currentTime - r.sourceTime) > MAX_DRIFT * Math.max(1, speed)) {
+      const drift = v.currentTime - r.sourceTime // > 0: the picture is ahead of the clock
+      if (!v.seeking && Math.abs(drift) > MAX_DRIFT * Math.max(1, speed)) {
+        if (v.playbackRate !== speed) v.playbackRate = speed
         v.currentTime = Math.min(r.sourceTime + 0.05 * speed, clampSourceTime(project, r.media, Infinity))
+      } else {
+        // Converge on the clock by running slightly slower or faster: no visible jump, unlike a seek.
+        const nudge = Math.abs(drift) < DRIFT_DEADBAND ? 0 : Math.max(-MAX_NUDGE, Math.min(MAX_NUDGE, -drift * NUDGE_GAIN))
+        const target = Math.round(speed * (1 + nudge) * 100) / 100
+        if (Math.abs(v.playbackRate - target) > 0.005) v.playbackRate = target
       }
       if (v.paused) v.play().catch(() => {})
     }
@@ -290,7 +312,8 @@ export class MediaPool implements FrameProvider {
           return
         }
       }
-      if (slot.still || !this.playing) this.snap(slot)
+      // Snap after every seek, playing or not: it's the fallback shown while the element can't deliver a frame.
+      this.snap(slot)
       this.changed()
     })
     video.addEventListener('loadeddata', () => {
